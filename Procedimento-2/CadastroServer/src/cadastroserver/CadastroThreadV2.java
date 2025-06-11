@@ -106,35 +106,33 @@ public class CadastroThreadV2 extends Thread {
                             Integer idProduto = in.readInt();
                             Integer quantidade = in.readInt();
                             BigDecimal valorUnitario = (BigDecimal) in.readObject();
-
-                            System.out.println("Recebendo dados da movimentação...");
-                            System.out.println("Comprador: " + idComprador + ", Vendedor: " + idVendedor +", Produto: " + idProduto + ", Quantidade: " + quantidade );
                             
-                            // Recupera a pessoa e o produto
                             Pessoa comprador = ctrlPessoa.findPessoa(idComprador);
                             Pessoa vendedor = ctrlPessoa.findPessoa(idVendedor);
                             Produto produto = ctrlProd.findProduto(idProduto);
                             
+                            // Checa se pessoas (Comprador e Vendedor) e o produto sao validos
                             if (comprador == null || vendedor == null || produto == null) {
                                 out.writeObject("Comprador, Vendedor ou Produto nao encontrado.");
                                 out.flush();
                                 break;
                             }
 
-                            // Cria o objeto Movimento
+                            // Cria e preenche a operacao
                             Operacao movimento = new Operacao();
+                            
                             movimento.setDataOperacao(new Date());
                             movimento.setQuantidadeOperacao(quantidade);
                             movimento.setPrecoUnitarioOperacao(valorUnitario);
-                            movimento.setCodProduto(Produto);
-                            
-                            movimento.setCodComprador(idComprador);
-                            movimento.setCodVendedor(idVendedor);
+                            movimento.setCodProduto(produto);                            
+                            movimento.setCodComprador(comprador);
+                            movimento.setCodVendedor(vendedor);
                             movimento.setTipoOperacao('C');
                             
+                            // Atualiza o estoque
                             produto.setQuantidadeEstoque(produto.getQuantidadeEstoque() + quantidade);
 
-                            // Persiste o movimento
+                            // Persiste a Operacvao
                             ctrlMov.create(movimento);
                             ctrlProd.edit(produto);
 
@@ -152,44 +150,49 @@ public class CadastroThreadV2 extends Thread {
                         try {                       
                         
                             // Recebe os dados da movimentacao
-                            Integer idPessoa = in.readInt();
+                            Integer idComprador = in.readInt();
+                            Integer idVendedor = in.readInt();
                             Integer idProduto = in.readInt();
                             Integer quantidade = in.readInt();
                             BigDecimal valorUnitario = (BigDecimal) in.readObject();
-
-                            // Recupera a pessoa e o produto
-                            Pessoa pessoa = ctrlPessoa.findPessoa(idPessoa);
+                            
+                            Pessoa comprador = ctrlPessoa.findPessoa(idComprador);
+                            Pessoa vendedor = ctrlPessoa.findPessoa(idVendedor);
                             Produto produto = ctrlProd.findProduto(idProduto);
-
-                            if (pessoa == null || produto == null) {
-                                out.writeObject("Pessoa ou Produto nao encontrado.");
-                                out.flush();
-                                break;
+                            
+                            // Checa se pessoas (Comprador e Vendedor) e o produto sao validos
+                            if (comprador == null || vendedor == null || produto == null) {
+                                    out.writeObject("Comprador, Vendedor ou Produto nao encontrado.");
+                                    out.flush();
+                                    break;
                             }
 
-                            // Cria o objeto Movimento
+                            // Cria e preenche a operacao
                             Operacao movimento = new Operacao();
+                            
                             movimento.setDataOperacao(new Date());
                             movimento.setQuantidadeOperacao(quantidade);
                             movimento.setPrecoUnitarioOperacao(valorUnitario);
-                            movimento.setCodProduto(produto);
                             
-                            movimento.setCodVendedor(pessoa);
-                            movimento.setCodComprador(null);
+                            movimento.setCodProduto(produto);                            
+                            movimento.setCodComprador(comprador);
+                            movimento.setCodVendedor(vendedor);
+                            
                             movimento.setTipoOperacao('V');
-                                                    
+                            
+                            // Atualiza o estoque
                             produto.setQuantidadeEstoque(produto.getQuantidadeEstoque() - quantidade);
 
-                            // Persiste o movimento
+                            // Persiste a Operacvao
                             ctrlMov.create(movimento);
                             ctrlProd.edit(produto);
 
-                            out.writeObject("Movimento registrado com sucesso.");
+                            out.writeObject("Movimento de Compra registrado com sucesso.");
                             out.flush();
                         } catch (Exception e) {
-                            out.writeObject("Erro durante a movimentacao de Venda." + e.getMessage());
+                            out.writeObject("Erro durante a movimentacao de Compra." + e.getMessage());
                             out.flush();
-                            System.err.println("Erro ao processar movimentação: " + e.getMessage());
+                            System.err.println("Erro ao processar movimentacao de Compra: " + e.getMessage());
                             conectado = false;
                         }
                         break;
@@ -202,14 +205,13 @@ public class CadastroThreadV2 extends Thread {
             }
 
         } catch (IOException | ClassNotFoundException e) {
-//            System.err.println("Erro na thread [" + Thread.currentThread().getName() + "]: " + e.getClass().getSimpleName());
-            System.err.println("[DEBUG:CadastroThreadV2:catch@run] Erro na thread [" + Thread.currentThread().getName() + "]: "
+            System.err.println("Erro na thread [" + Thread.currentThread().getName() + "]: "
     + e.getClass().getSimpleName() + (e.getMessage() != null ? " - " + e.getMessage() : " - sem mensagem"));
         } finally {
             try {
                 if (!s1.isClosed()) s1.close();
             } catch (IOException e) {
-                System.err.println("[DEBUG:CadastroThreadV2:catch@run] Erro ao fechar o socket: " + e.getMessage());
+                System.err.println("Erro ao fechar o socket: " + e.getMessage());
             }
         }   
     }

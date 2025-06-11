@@ -44,16 +44,17 @@ public class Operacao implements Serializable {
     @Column(name = "tipo_operacao")
     private Character tipoOperacao;
     
-    @JoinColumn(name = "cod_comprador", referencedColumnName = "cod_pessoa")
-    @ManyToOne(optional = false)
+    @ManyToOne
+    @JoinColumn(name = "cod_comprador")
     private Pessoa codComprador;
+
     
-    @JoinColumn(name = "cod_vendedor", referencedColumnName = "cod_pessoa")
-    @ManyToOne(optional = false)
+    @ManyToOne
+    @JoinColumn(name = "cod_vendedor")
     private Pessoa codVendedor;
     
-    @JoinColumn(name = "cod_produto", referencedColumnName = "cod_produto")
-    @ManyToOne(optional = false)
+    @ManyToOne
+    @JoinColumn(name = "cod_produto")
     private Produto codProduto;
     
     public Operacao() {
@@ -103,7 +104,7 @@ public class Operacao implements Serializable {
         return codComprador;
     }
 
-    public void setCodComprador(Pessoa codComprador) {
+    public void setCodComprador(Integer codComprador) {
         this.codComprador = codComprador;
     }
 
@@ -111,7 +112,7 @@ public class Operacao implements Serializable {
         return codVendedor;
     }
 
-    public void setCodVendedor(Pessoa codVendedor) {
+    public void setCodVendedor(Integer codVendedor) {
         this.codVendedor = codVendedor;
     }
 
@@ -119,7 +120,7 @@ public class Operacao implements Serializable {
         return codProduto;
     }
 
-    public void setCodProduto(Produto codProduto) {
+    public void setCodProduto(Integer codProduto) {
         this.codProduto = codProduto;
     }
 
