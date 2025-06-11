@@ -1,0 +1,16 @@
+<project name="CadastroServer" default="default" basedir=".">
+    <description>Builds, tests, and runs the project CadastroServer.</description>
+
+    <!-- Importa as tarefas padrão geradas pelo NetBeans -->
+    <import file="nbproject/build-impl.xml"/>
+
+    <!-- Mensagem antes da compilação -->
+    <target name="-pre-compile">
+        <echo message="🛠️ Iniciando compilação do CadastroServer..."/>
+    </target>
+
+    <!-- Mensagem após empacotar o JAR -->
+    <target name="-post-jar">
+        <echo message="✅ JAR gerado com sucesso em: ${dist.jar}"/>
+    </target>
+</project>

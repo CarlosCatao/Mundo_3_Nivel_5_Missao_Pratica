@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="CadastroClientV2" default="default" basedir=".">
+    <description>Builds, tests, and runs the project CadastroClientV2.</description>
+
+    <!-- Importa a lógica padrão do NetBeans -->
+    <import file="nbproject/build-impl.xml"/>
+
+    <!-- Mensagem antes da compilação -->
+    <target name="-pre-compile">
+        <echo message="🚧 Iniciando compilação do projeto CadastroClientV2..."/>
+    </target>
+
+    <!-- Mensagem após o JAR ser construído -->
+    <target name="-post-jar">
+        <echo message="✅ JAR gerado com sucesso em: ${dist.jar}"/>
+    </target>
+</project>
