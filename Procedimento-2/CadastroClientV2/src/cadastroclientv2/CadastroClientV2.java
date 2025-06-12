@@ -7,6 +7,7 @@
 
 package cadastroclientv2;
 
+import java.awt.Frame;
 import java.io.*;
 import java.math.BigDecimal;
 import java.net.Socket;
@@ -93,14 +94,23 @@ public class CadastroClientV2 {
                             break;
                         case "S":
                             saida.writeObject("S");
-                            System.out.print("Id da pessoa: ");
-                            saida.writeObject(teclado.readLine());
+                            
+                            System.out.print("Id do Comprador: ");
+                            saida.writeInt(Integer.parseInt(teclado.readLine()));
+                            
+                            System.out.print("Id do Vendedor: ");
+                            saida.writeInt(Integer.parseInt(teclado.readLine()));
+                            
+
                             System.out.print("Id do produto: ");
-                            saida.writeObject(teclado.readLine());
+                            saida.writeInt(Integer.parseInt(teclado.readLine()));
+
                             System.out.print("Quantidade: ");
-                            saida.writeObject(teclado.readLine());
+                            saida.writeInt(Integer.parseInt(teclado.readLine()));
+
                             System.out.print("Valor unitário: ");
-                            saida.writeObject(teclado.readLine());
+                            saida.writeObject(new BigDecimal(teclado.readLine().replace(",", ".")));
+
                             saida.flush();
                             break;
                         case "X":
@@ -123,11 +133,22 @@ public class CadastroClientV2 {
                 if (entrada != null) entrada.close();
                 if (saida != null) saida.close();
                 if (socket != null && !socket.isClosed()) socket.close();
-                //if (frame != null) {
-                //    JFrame finalFrame = frame;
-                //    SwingUtilities.invokeLater(() -> finalFrame.dispose());
-                //}
-                System.out.println("Conexao encerrada com sucesso.");
+                
+                // Fecha a janela Swing
+                try {
+                    SwingUtilities.invokeAndWait(() -> {
+                        Frame[] frames = JFrame.getFrames();
+                        for (Frame f : frames) {
+                            f.dispose();
+                        }   
+                    });
+                } catch (Exception e) {
+                    System.err.println("Erro ao fechar a janela: " + e.getMessage());
+                }
+
+            System.out.println("Conexao encerrada com sucesso.");
+            System.exit(0);
+                
             } catch (IOException e) {
                 System.err.println("Erro ao fechar recursos: " + e.getMessage());
             }

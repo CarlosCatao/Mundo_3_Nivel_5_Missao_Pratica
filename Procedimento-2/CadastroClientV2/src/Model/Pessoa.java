@@ -70,10 +70,10 @@ public class Pessoa implements Serializable {
     private PessoaJuridica pessoaJuridica;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "codComprador")
-    private Collection<Operacao> operacaoCollection;
+    private Collection<Operacao> operacoesComoComprador;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "codVendedor")
-    private Collection<Operacao> operacaoCollection1;
+    private Collection<Operacao> operacoesComoVendedor;;
     
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "pessoa")
     private PessoaFisica pessoaFisica;
@@ -175,20 +175,20 @@ public class Pessoa implements Serializable {
         this.usuario = usuario;
     }
 
-    public Collection<Operacao> getOperacaoCollection() {
-        return operacaoCollection;
+    public Collection<Operacao> getOperacoesComoComprador() {
+        return operacoesComoComprador;
     }
 
-    public void setOperacaoCollection(Collection<Operacao> operacaoCollection) {
-        this.operacaoCollection = operacaoCollection;
+    public void setOperacaoCollection(Collection<Operacao> operacoesComoComprador) {
+        this.operacoesComoComprador = operacoesComoComprador;
     }
 
-    public Collection<Operacao> getOperacaoCollection1() {
-        return operacaoCollection1;
+    public Collection<Operacao> getOperacoesComoVendedor() {
+        return operacoesComoVendedor;
     }
 
-    public void setOperacaoCollection1(Collection<Operacao> operacaoCollection1) {
-        this.operacaoCollection1 = operacaoCollection1;
+    public void OperacoesComoVendedor(Collection<Operacao> OperacoesComoVendedor) {
+        this.operacoesComoVendedor = OperacoesComoVendedor;
     }
 
     public PessoaFisica getPessoaFisica() {
@@ -201,14 +201,11 @@ public class Pessoa implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (codPessoa != null ? codPessoa.hashCode() : 0);
-        return hash;
+        return (codPessoa != null ? codPessoa.hashCode() : 0);
     }
 
     @Override
     public boolean equals(Object object) {
-
         if (!(object instanceof Pessoa)) {
             return false;
         }

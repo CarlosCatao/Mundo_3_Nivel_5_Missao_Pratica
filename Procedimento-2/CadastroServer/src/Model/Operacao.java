@@ -45,16 +45,16 @@ public class Operacao implements Serializable {
     private Character tipoOperacao;
     
     @ManyToOne
-    @JoinColumn(name = "cod_comprador")
+    @JoinColumn(name = "cod_comprador", nullable = false)
     private Pessoa codComprador;
 
     
     @ManyToOne
-    @JoinColumn(name = "cod_vendedor")
+    @JoinColumn(name = "cod_vendedor", nullable = false)
     private Pessoa codVendedor;
     
     @ManyToOne
-    @JoinColumn(name = "cod_produto")
+    @JoinColumn(name = "cod_produto", nullable = false)
     private Produto codProduto;
     
     public Operacao() {
@@ -104,7 +104,7 @@ public class Operacao implements Serializable {
         return codComprador;
     }
 
-    public void setCodComprador(Integer codComprador) {
+    public void setCodComprador(Pessoa codComprador) {
         this.codComprador = codComprador;
     }
 
@@ -112,7 +112,7 @@ public class Operacao implements Serializable {
         return codVendedor;
     }
 
-    public void setCodVendedor(Integer codVendedor) {
+    public void setCodVendedor(Pessoa codVendedor) {
         this.codVendedor = codVendedor;
     }
 
@@ -120,7 +120,7 @@ public class Operacao implements Serializable {
         return codProduto;
     }
 
-    public void setCodProduto(Integer codProduto) {
+    public void setCodProduto(Produto codProduto) {
         this.codProduto = codProduto;
     }
 
